@@ -8,5 +8,7 @@ public class ProductEntity
     public decimal Price { get; set; }
     public decimal Stock { get; set; }
     public int Id { get; set; }
+    public string AuthorName { get; set; }
+    public string Pages { get; set; }
     
 }
