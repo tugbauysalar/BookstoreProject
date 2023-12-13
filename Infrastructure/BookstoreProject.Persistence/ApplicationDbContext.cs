@@ -14,14 +14,15 @@ public class ApplicationDbContext : DbContext
     public DbSet<ProductEntity> ProductEntities { get; set; }
     public DbSet<CategoryEntity> CategoryEntities { get; set; }
  
-    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<ProductEntity>().HasData(
-            new ProductEntity
+        /*
+        modelBuilder.Entity<CategoryEntity>().HasData(
+            new CategoryEntity
             {
 
             }
-        );
-    }*/
+        );*/
+    }
 }
