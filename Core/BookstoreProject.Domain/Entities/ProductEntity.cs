@@ -10,6 +10,7 @@ public class ProductEntity
     public int Id { get; set; }
     public string AuthorName { get; set; }
     public string Pages { get; set; }
+    public int CategoryId { get; set; }
     public CategoryEntity Category { get; set; }
     
 }
