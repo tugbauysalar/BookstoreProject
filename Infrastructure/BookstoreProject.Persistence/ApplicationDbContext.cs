@@ -12,8 +12,9 @@ public class ApplicationDbContext : DbContext
     }
     
     public DbSet<ProductEntity> ProductEntities { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public DbSet<CategoryEntity> CategoryEntities { get; set; }
+ 
+    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<ProductEntity>().HasData(
@@ -22,5 +23,5 @@ public class ApplicationDbContext : DbContext
 
             }
         );
-    }
+    }*/
 }

@@ -21,6 +21,23 @@ namespace BookstoreProject.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.CategoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryEntities");
+                });
+
             modelBuilder.Entity("BookstoreProject.Domain.Entities.ProductEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +49,9 @@ namespace BookstoreProject.Persistence.Migrations
                     b.Property<string>("AuthorName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -49,7 +69,25 @@ namespace BookstoreProject.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("ProductEntities");
+                });
+
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.ProductEntity", b =>
+                {
+                    b.HasOne("BookstoreProject.Domain.Entities.CategoryEntity", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.CategoryEntity", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
