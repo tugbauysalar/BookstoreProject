@@ -21,7 +21,7 @@ namespace BookstoreProject.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BookstoreProject.Domain.Entities.CategoryEntity", b =>
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace BookstoreProject.Persistence.Migrations
                     b.ToTable("CategoryEntities");
                 });
 
-            modelBuilder.Entity("BookstoreProject.Domain.Entities.ProductEntity", b =>
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,9 +74,42 @@ namespace BookstoreProject.Persistence.Migrations
                     b.ToTable("ProductEntities");
                 });
 
-            modelBuilder.Entity("BookstoreProject.Domain.Entities.ProductEntity", b =>
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.Users", b =>
                 {
-                    b.HasOne("BookstoreProject.Domain.Entities.CategoryEntity", "Category")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersEntities");
+                });
+
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("BookstoreProject.Domain.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -85,7 +118,7 @@ namespace BookstoreProject.Persistence.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BookstoreProject.Domain.Entities.CategoryEntity", b =>
+            modelBuilder.Entity("BookstoreProject.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
                 });

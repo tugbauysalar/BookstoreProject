@@ -2,7 +2,7 @@
 
 namespace BookstoreProject.Domain.Entities;
 
-public class ProductEntity
+public class Product
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
@@ -11,6 +11,6 @@ public class ProductEntity
     public string AuthorName { get; set; }
     public string Pages { get; set; }
     public int CategoryId { get; set; }
-    public CategoryEntity Category { get; set; }
+    public Category Category { get; set; }
     
 }
