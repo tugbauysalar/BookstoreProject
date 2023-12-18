@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace BookstoreProject.Domain.Entities;
 
-public class Users
+public class User : IdentityUser
 {
     public string Name { get; set; }
     public string Surname { get; set; }

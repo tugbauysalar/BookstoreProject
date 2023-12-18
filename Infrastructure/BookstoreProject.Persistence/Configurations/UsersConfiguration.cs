@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookstoreProject.Persistence.Configurations;
 
-public class UsersConfiguration : IEntityTypeConfiguration<Users>
+public class UsersConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Users> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn();
