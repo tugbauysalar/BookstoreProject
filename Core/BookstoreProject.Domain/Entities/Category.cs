@@ -1,8 +1,8 @@
 ﻿namespace BookstoreProject.Domain.Entities;
 
-public class CategoryEntity
+public class Category
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public List<ProductEntity> Products { get; set; }
+    public List<Product> Products { get; set; }
 }
