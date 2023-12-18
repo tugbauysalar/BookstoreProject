@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookstoreProject.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class ProductAndCategory : Migration
+    public partial class mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,23 @@ namespace BookstoreProject.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CategoryEntities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersEntities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Surname = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersEntities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +76,9 @@ namespace BookstoreProject.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ProductEntities");
+
+            migrationBuilder.DropTable(
+                name: "UsersEntities");
 
             migrationBuilder.DropTable(
                 name: "CategoryEntities");
