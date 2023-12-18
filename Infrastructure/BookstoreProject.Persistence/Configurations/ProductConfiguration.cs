@@ -14,7 +14,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Stock).IsRequired();
         builder.Property(x => x.AuthorName).IsRequired().HasMaxLength(30);
         builder.Property(x => x.Pages).IsRequired();
-        builder.Property(x => x.Category).IsRequired();
+        builder.Property(x => x.CategoryId).IsRequired();
         builder.Property(x => x.Price).IsRequired();
         builder.ToTable("Products");
         
