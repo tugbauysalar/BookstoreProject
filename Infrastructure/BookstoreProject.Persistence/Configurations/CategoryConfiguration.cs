@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookstoreProject.Persistence.Configurations;
 
-public class CategoryConfiguration : IEntityTypeConfiguration<CategoryEntity>
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
-    public void Configure(EntityTypeBuilder<CategoryEntity> builder)
+    public void Configure(EntityTypeBuilder<Category> builder)
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn();
