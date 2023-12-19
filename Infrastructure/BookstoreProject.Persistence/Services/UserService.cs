@@ -23,7 +23,7 @@ public class UserService : IUserService
         {
             UserName = userRegisterDto.UserName,
             Email = userRegisterDto.Email,
-            Surname = userRegisterDto.Surname,
+            NameSurname = userRegisterDto.NameSurname,
             Password = userRegisterDto.Password,
            
         };
@@ -46,5 +46,17 @@ public class UserService : IUserService
             return CustomResponseDto<UserDto>.Error(404, "Girilen email kayıtlı değil!");
         }
         return CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user));
+    }
+
+    public async Task<CustomResponseDto<NoContentDto>> DeleteUserAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            return CustomResponseDto<NoContentDto>.Error(404, "Email bulunamadı.");
+        }
+
+        await _userManager.DeleteAsync(user);
+        return CustomResponseDto<NoContentDto>.Success(204);
     }
 }
