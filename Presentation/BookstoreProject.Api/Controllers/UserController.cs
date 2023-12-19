@@ -25,4 +25,10 @@ public class UserController : CustomBaseController
     {
         return CreateIActionResult(await _userService.LoginUserAsync(userLoginDto));
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteUser(string email)
+    {
+        return CreateIActionResult(await _userService.DeleteUserAsync(email));
+    }
 }
