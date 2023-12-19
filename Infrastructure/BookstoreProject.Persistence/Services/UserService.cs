@@ -21,7 +21,11 @@ public class UserService : IUserService
     {
         var user = new User()
         {
-            Email = userRegisterDto.Email
+            UserName = userRegisterDto.UserName,
+            Email = userRegisterDto.Email,
+            Surname = userRegisterDto.Surname,
+            Password = userRegisterDto.Password,
+           
         };
         var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
         

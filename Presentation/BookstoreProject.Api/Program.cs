@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 builder.Services.AddScoped<IUserService, UserService>();
-    
+builder.Services.AddAutoMapper(typeof(MapProfile));
     
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("BookstoreProject.Persistence")));
