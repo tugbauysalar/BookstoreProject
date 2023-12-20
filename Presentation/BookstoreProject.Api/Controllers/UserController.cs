@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreProject.Api.Controllers;
 [Route("api/[controller]/[action]")]
+[ApiController]
+
 public class UserController : CustomBaseController
 {
     private readonly IUserService _userService;
@@ -13,7 +15,7 @@ public class UserController : CustomBaseController
     {
         _userService = userService;
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> CreateUser(UserRegisterDto userRegisterDto)
     {
