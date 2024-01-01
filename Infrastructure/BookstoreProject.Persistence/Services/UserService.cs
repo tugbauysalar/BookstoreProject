@@ -37,17 +37,6 @@ public class UserService : IUserService
 
         return CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user));
     }
-
-    public async Task<CustomResponseDto<UserDto>> LoginUserAsync(UserLoginDto userLoginDto)
-    {
-        var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-        if (user == null)
-        {
-            return CustomResponseDto<UserDto>.Error(404, "Girilen email kayıtlı değil!");
-        }
-        return CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user));
-    }
-
     public async Task<CustomResponseDto<NoContentDto>> DeleteUserAsync(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);

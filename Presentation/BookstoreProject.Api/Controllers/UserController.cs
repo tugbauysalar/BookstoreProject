@@ -29,13 +29,7 @@ public class UserController : CustomBaseController
         }
         return CreateIActionResult(await _userService.CreateUserAsync(userRegisterDto));
     }
-
-    [HttpPost]
-    public async Task<IActionResult> LoginUser(UserLoginDto userLoginDto)
-    {
-        return CreateIActionResult(await _userService.LoginUserAsync(userLoginDto));
-    }
-
+    
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(string email)
     {
