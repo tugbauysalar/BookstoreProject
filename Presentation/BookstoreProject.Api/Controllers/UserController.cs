@@ -1,5 +1,8 @@
-﻿using BookstoreProject.Application.DTOs;
+﻿using System.Runtime.InteropServices.JavaScript;
+using BookstoreProject.Application.DTOs;
 using BookstoreProject.Application.Services;
+using BookstoreProject.Application.Validations;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreProject.Api.Controllers;
@@ -19,6 +22,11 @@ public class UserController : CustomBaseController
     [HttpPost]
     public async Task<IActionResult> CreateUser(UserRegisterDto userRegisterDto)
     {
+        var validationResult = new UserRegisterDtoValidator().Validate(userRegisterDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
         return CreateIActionResult(await _userService.CreateUserAsync(userRegisterDto));
     }
 

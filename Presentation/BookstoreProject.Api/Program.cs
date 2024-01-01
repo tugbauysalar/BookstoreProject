@@ -1,12 +1,19 @@
+using System.Reflection;
 using BookstoreProject.Application;
 using BookstoreProject.Application.Mapping;
 using BookstoreProject.Application.Services;
 using BookstoreProject.Domain.Entities;
 using BookstoreProject.Persistence;
 using BookstoreProject.Persistence.Services;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers().AddFluentValidation(options =>
+{
+    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+});
 
 // Add services to the container.
 
