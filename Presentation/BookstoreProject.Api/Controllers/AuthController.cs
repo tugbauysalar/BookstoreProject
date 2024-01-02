@@ -27,9 +27,9 @@ public class AuthController : CustomBaseController
     }
     
     [HttpPost]
-    public async Task<IActionResult> RevokeRefreshToken(RefreshTokenDto refreshTokenDto)
+    public async Task<IActionResult> Logout()
     {
-        var result = await _authenticationService.RevokeRefreshToken(refreshTokenDto.Token);
+        var result = await _authenticationService.RevokeRefreshToken();
         return CreateIActionResult(result);
     }
 }

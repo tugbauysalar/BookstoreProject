@@ -25,7 +25,8 @@ public class UserController : CustomBaseController
         var validationResult = new UserRegisterDtoValidator().Validate(userRegisterDto);
         if (!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            return BadRequest(new {errors});
         }
         return CreateIActionResult(await _userService.CreateUserAsync(userRegisterDto));
     }

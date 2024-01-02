@@ -13,6 +13,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly UserManager<User> _userManager;
     private readonly IUnitofWork _unitOfWork;
     private readonly IRepository<UserRefreshToken> _userRefreshTokenService;
+    private string _lastGeneratedToken;
     
     public AuthenticationService(ITokenService tokenService, UserManager<User> userManager, IUnitofWork unitOfWork,
     IRepository<UserRefreshToken> userRefreshTokenService)
@@ -53,6 +54,8 @@ public class AuthenticationService : IAuthenticationService
             userRefreshToken.Expiration = token.RefreshTokenExpiration.ToUniversalTime();
         }
 
+        _lastGeneratedToken = userRefreshToken.RefreshToken;
+    
         await _unitOfWork.CommitAsync();
 
         return CustomResponseDto<TokenDto>.Success(200, token);
@@ -84,15 +87,14 @@ public class AuthenticationService : IAuthenticationService
 
    
 
-    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string refreshToken)
+    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken()
     {
-        var existRefreshToken = await _userRefreshTokenService.Where(x => x.RefreshToken == refreshToken).FirstOrDefaultAsync();
-        if (existRefreshToken == null)
+        var refreshToken = await _userRefreshTokenService.Where(x => x.RefreshToken == _lastGeneratedToken)
+            .FirstOrDefaultAsync();
+        if (refreshToken != null)
         {
-            return CustomResponseDto<NoContentDto>.Error(404, "Refresh token bulunamadı!");
+            _userRefreshTokenService.Delete(refreshToken);
         }
-
-        _userRefreshTokenService.Delete(existRefreshToken);
 
         await _unitOfWork.CommitAsync();
 
