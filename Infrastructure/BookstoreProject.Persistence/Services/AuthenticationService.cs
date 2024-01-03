@@ -29,11 +29,11 @@ public class AuthenticationService : IAuthenticationService
         if (userLoginDto == null) throw new ArgumentNullException(nameof(userLoginDto));
 
         var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-        if (user == null) return CustomResponseDto<TokenDto>.Error(400, "Email veya şifre yanlış!");
+        if (user == null) return CustomResponseDto<TokenDto>.Error(400, "E-posta veya şifre yanlış!");
 
         if (!await _userManager.CheckPasswordAsync(user, userLoginDto.Password))
         {
-            return CustomResponseDto<TokenDto>.Error(400, "Email veya şifre yanlış!");
+            return CustomResponseDto<TokenDto>.Error(400, "E-posta veya şifre yanlış!");
         }
 
         var token = _tokenService.CreateToken(user);

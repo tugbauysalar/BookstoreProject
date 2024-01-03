@@ -32,8 +32,8 @@ public class UserController : CustomBaseController
     }
     
     [HttpDelete]
-    public async Task<IActionResult> DeleteUser(string email)
+    public async Task<IActionResult> DeleteUser(string userName)
     {
-        return CreateIActionResult(await _userService.DeleteUserAsync(email));
+        return CreateIActionResult(await _userService.DeleteUserAsync(userName));
     }
 }
