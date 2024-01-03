@@ -13,7 +13,6 @@ public class AuthenticationService : IAuthenticationService
     private readonly UserManager<User> _userManager;
     private readonly IUnitofWork _unitOfWork;
     private readonly IRepository<UserRefreshToken> _userRefreshTokenService;
-    private string _lastGeneratedToken;
     
     public AuthenticationService(ITokenService tokenService, UserManager<User> userManager, IUnitofWork unitOfWork,
     IRepository<UserRefreshToken> userRefreshTokenService)
@@ -53,8 +52,6 @@ public class AuthenticationService : IAuthenticationService
             userRefreshToken.RefreshToken = token.RefreshToken;
             userRefreshToken.Expiration = token.RefreshTokenExpiration.ToUniversalTime();
         }
-
-        _lastGeneratedToken = userRefreshToken.RefreshToken;
     
         await _unitOfWork.CommitAsync();
 
@@ -89,13 +86,6 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken()
     {
-        var refreshToken = await _userRefreshTokenService.Where(x => x.RefreshToken == _lastGeneratedToken)
-            .FirstOrDefaultAsync();
-        if (refreshToken != null)
-        {
-            _userRefreshTokenService.Delete(refreshToken);
-        }
-
         await _unitOfWork.CommitAsync();
 
         return CustomResponseDto<NoContentDto>.Success(200);
