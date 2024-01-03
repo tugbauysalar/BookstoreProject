@@ -19,6 +19,13 @@ public class UserService : IUserService
 
     public async Task<CustomResponseDto<UserDto>> CreateUserAsync(UserRegisterDto userRegisterDto)
     {
+        var existingUser = await _userManager.FindByEmailAsync(userRegisterDto.Email);
+        if (existingUser != null)
+        {
+            var error = "Bu e-posta kayıtlı!";
+            return CustomResponseDto<UserDto>.Error(404,error);
+        }
+            
         var user = new User()
         {
             UserName = userRegisterDto.UserName,
@@ -37,12 +44,12 @@ public class UserService : IUserService
 
         return CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user));
     }
-    public async Task<CustomResponseDto<NoContentDto>> DeleteUserAsync(string email)
+    public async Task<CustomResponseDto<NoContentDto>> DeleteUserAsync(string userName)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByNameAsync(userName);
         if (user == null)
         {
-            return CustomResponseDto<NoContentDto>.Error(404, "Email bulunamadı.");
+            return CustomResponseDto<NoContentDto>.Error(404, "Kullanıcı bulunamadı.");
         }
 
         await _userManager.DeleteAsync(user);

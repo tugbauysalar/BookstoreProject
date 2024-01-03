@@ -11,8 +11,8 @@ public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
             .NotNull().WithMessage("Ad-Soyad alanı boş bırakılamaz!");
         RuleFor(x=>x.UserName).NotEmpty().WithMessage("Kullanıcı adı alanı boş bırakılamaz!")
             .NotNull().WithMessage("Kullanıcı adı alanı boş bırakılamaz!");
-        RuleFor(x=>x.Email).NotEmpty().WithMessage("Email alanı boş bırakılamaz!")
-            .NotNull().WithMessage("Email alanı boş bırakılamaz!");
+        RuleFor(x=>x.Email).NotEmpty().WithMessage("E-posta alanı boş bırakılamaz!")
+            .NotNull().WithMessage("E-posta alanı boş bırakılamaz!");
         RuleFor(x => x.Email).EmailAddress().WithMessage("Geçerli bir email adresi girin!");
         RuleFor(x=>x.Password).NotEmpty().WithMessage("Şifre alanı boş bırakılamaz!")
             .NotNull().WithMessage("Şifre alanı boş bırakılamaz!");
