@@ -1,5 +1,6 @@
 ﻿using BookstoreProject.Application.DTOs;
 using BookstoreProject.Application.Services;
+using BookstoreProject.Application.Validations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreProject.Api.Controllers;
@@ -15,6 +16,12 @@ public class AuthController : CustomBaseController
     [HttpPost]
     public async Task<IActionResult> Login(UserLoginDto userLoginDto)
     {
+        var validationResult = new UserLoginDtoValidator().Validate(userLoginDto);
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            return BadRequest(new {errors});
+        }
         var result = await _authenticationService.CreateTokenAsync(userLoginDto);
         return CreateIActionResult(result);
     }
