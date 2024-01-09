@@ -40,4 +40,12 @@ public class ProductController : CustomBaseController
         var error = "Aradığınız kitap bulunamadı!";
         return CreateIActionResult(CustomResponseDto<BookDto>.Error(404, error));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> All()
+    {
+        var products = await _service.GetAllAsync();
+        var productDto = _mapper.Map<List<BookDto>>(products.ToList());
+        return CreateIActionResult(CustomResponseDto<List<BookDto>>.Success(200, productDto));
+    }
 }
