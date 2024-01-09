@@ -1,4 +1,6 @@
-﻿using System.Net.Mime;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
 
 namespace BookstoreProject.Domain.Entities;
 
@@ -11,5 +13,9 @@ public class Product
     public string AuthorName { get; set; }
     public string Pages { get; set; }
     public int CategoryId { get; set; }
+    public string ImgName { get; set; }
+    [NotMapped]
+    public IFormFile Image { get; set; }
+    
     
 }
