@@ -18,6 +18,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         await _dbSet.AddAsync(entity);
         
+        await _appDbContext.SaveChangesAsync();
     }
     public async Task AddRangeAsync(IEnumerable<TEntity> entities)
     {

@@ -11,6 +11,5 @@ public class Product
     public string AuthorName { get; set; }
     public string Pages { get; set; }
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
     
 }

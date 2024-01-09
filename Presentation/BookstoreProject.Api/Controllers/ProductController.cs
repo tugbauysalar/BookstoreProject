@@ -16,12 +16,15 @@ public class ProductController:ControllerBase
     private readonly ApplicationDbContext _dbContext;
     private readonly Repository<Product> productRepository;
 
+ 
     [HttpPost]
-    public async Task<IActionResult> AddProduct([FromBody]Product product)
+    public async Task<IActionResult> AddProduct(Product product)
     {
-        
-        await productRepository.AddAsync(product);
-
+        if (product == null)
+        {
+            product = new Product();
+            await productRepository.AddAsync(product);
+        }
         return Ok(product);
     }
     
