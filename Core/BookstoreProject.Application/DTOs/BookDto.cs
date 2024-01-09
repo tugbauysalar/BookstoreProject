@@ -1,11 +1,9 @@
 ﻿namespace BookstoreProject.Application.DTOs;
 
-public class ProductDto
+public class BookDto
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
     public string AuthorName { get; set; }
     public string Pages { get; set; }
-    public int Stock { get; set; }
-    public int CategoryId { get; set; }
 }
