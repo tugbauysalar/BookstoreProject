@@ -17,8 +17,6 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
-        
-        await _appDbContext.SaveChangesAsync();
     }
     public async Task AddRangeAsync(IEnumerable<TEntity> entities)
     {
@@ -41,10 +39,6 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<TEntity> GetByNameAsync(string name)
-    {
-        return await _dbSet.FindAsync(name);
-    }
     public void Update(TEntity entity)
     {
         _dbSet.Update(entity);

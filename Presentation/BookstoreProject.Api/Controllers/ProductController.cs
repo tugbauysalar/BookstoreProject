@@ -1,51 +1,28 @@
-using System.Runtime.InteropServices.JavaScript;
-using System.Security.Cryptography;
+﻿using AutoMapper;
+using BookstoreProject.Application.DTOs;
+using BookstoreProject.Application.Services;
 using BookstoreProject.Domain.Entities;
-using BookstoreProject.Persistence;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace BookstoreProject.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductController:ControllerBase
+public class ProductController : CustomBaseController
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly Repository<Product> productRepository;
+    private readonly IMapper _mapper;
+    private readonly IService<Product> _service;
 
- 
+    public ProductController(IService<Product> service, IMapper mapper)
+    {
+        _service = service;
+        _mapper = mapper;
+    }
+
     [HttpPost]
-    public async Task<IActionResult> AddProduct(Product product)
+    public async Task<IActionResult> Add(ProductDto productDto)
     {
-        if (product == null)
-        {
-            product = new Product();
-            await productRepository.AddAsync(product);
-        }
-        return Ok(product);
+        var product = await _service.AddAsync(_mapper.Map<Product>(productDto));
+        var productsDto = _mapper.Map<ProductDto>(product);
+        return CreateIActionResult(CustomResponseDto<ProductDto>.Success(201, productsDto));
     }
     
-    // isim ile aratma
-    [HttpGet("{name}")]
-    public async Task<IActionResult> GetProductByName(String name)
-    {
-        var getBook = productRepository.GetByNameAsync(name);
-        if (getBook == null)
-        {
-            return NotFound("Bu isimde bir kitap bulunamadı.");
-        }
-        return Ok(getBook);
-    }
-    
-    
-   
-
-
 }
-
-    
-    
-

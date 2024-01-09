@@ -28,11 +28,11 @@ public class AuthenticationService : IAuthenticationService
         if (userLoginDto == null) throw new ArgumentNullException(nameof(userLoginDto));
 
         var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-        if (user == null) return CustomResponseDto<TokenDto>.Error(400, "Email veya şifre yanlış!");
+        if (user == null) return CustomResponseDto<TokenDto>.Error(400, "E-posta veya şifre yanlış!");
 
         if (!await _userManager.CheckPasswordAsync(user, userLoginDto.Password))
         {
-            return CustomResponseDto<TokenDto>.Error(400, "Email veya şifre yanlış!");
+            return CustomResponseDto<TokenDto>.Error(400, "E-posta veya şifre yanlış!");
         }
 
         var token = _tokenService.CreateToken(user);
@@ -52,7 +52,7 @@ public class AuthenticationService : IAuthenticationService
             userRefreshToken.RefreshToken = token.RefreshToken;
             userRefreshToken.Expiration = token.RefreshTokenExpiration.ToUniversalTime();
         }
-
+    
         await _unitOfWork.CommitAsync();
 
         return CustomResponseDto<TokenDto>.Success(200, token);
@@ -84,16 +84,8 @@ public class AuthenticationService : IAuthenticationService
 
    
 
-    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string refreshToken)
+    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken()
     {
-        var existRefreshToken = await _userRefreshTokenService.Where(x => x.RefreshToken == refreshToken).FirstOrDefaultAsync();
-        if (existRefreshToken == null)
-        {
-            return CustomResponseDto<NoContentDto>.Error(404, "Refresh token bulunamadı!");
-        }
-
-        _userRefreshTokenService.Delete(existRefreshToken);
-
         await _unitOfWork.CommitAsync();
 
         return CustomResponseDto<NoContentDto>.Success(200);
