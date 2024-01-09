@@ -1,5 +1,6 @@
 using System.Reflection;
 using BookstoreProject.Application;
+using BookstoreProject.Application.DTOs;
 using BookstoreProject.Application.Mapping;
 using BookstoreProject.Application.Services;
 using BookstoreProject.Domain.Entities;
@@ -48,6 +49,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAutoMapper(typeof(MapProfile));

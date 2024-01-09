@@ -10,13 +10,15 @@ public class ProductController : CustomBaseController
 {
     private readonly IMapper _mapper;
     private readonly IService<Product> _service;
-
-    public ProductController(IService<Product> service, IMapper mapper)
+    private readonly IProductService _productService;
+    
+    public ProductController(IService<Product> service, IMapper mapper, IProductService productService)
     {
         _service = service;
         _mapper = mapper;
+        _productService = productService;
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Add(ProductDto productDto)
     {
@@ -24,5 +26,18 @@ public class ProductController : CustomBaseController
         var productsDto = _mapper.Map<ProductDto>(product);
         return CreateIActionResult(CustomResponseDto<ProductDto>.Success(201, productsDto));
     }
-    
+
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetProductByName(string name)
+    {
+        var product = await _productService.GetByNameAsync(name);
+        var productDto = _mapper.Map<BookDto>(product);
+        if (productDto != null)
+        {
+            return CreateIActionResult(CustomResponseDto<BookDto>.Success(200, productDto));
+        }
+
+        var error = "Aradığınız kitap bulunamadı!";
+        return CreateIActionResult(CustomResponseDto<BookDto>.Error(404, error));
+    }
 }

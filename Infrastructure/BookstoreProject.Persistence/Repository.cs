@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 using BookstoreProject.Application;
+using BookstoreProject.Application.DTOs;
+using BookstoreProject.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookstoreProject.Persistence;
@@ -38,7 +40,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         return await _dbSet.FindAsync(id);
     }
-
+    
     public void Update(TEntity entity)
     {
         _dbSet.Update(entity);
