@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
 
 namespace BookstoreProject.Domain.Entities;
 

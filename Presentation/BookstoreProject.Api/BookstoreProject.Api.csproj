@@ -35,4 +35,8 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\BookstoreProject.Persistence\BookstoreProject.Persistence.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>
