@@ -2,9 +2,12 @@
 using BookstoreProject.Application.DTOs;
 using BookstoreProject.Application.Services;
 using BookstoreProject.Domain.Entities;
+using BookstoreProject.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace BookstoreProject.Api.Controllers;
+[Route("api/[controller]/[action]")]
 
 public class ProductController : CustomBaseController
 {
@@ -48,4 +51,20 @@ public class ProductController : CustomBaseController
         var productDto = _mapper.Map<List<BookDto>>(products.ToList());
         return CreateIActionResult(CustomResponseDto<List<BookDto>>.Success(200, productDto));
     }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update(ProductDto productDto)
+    {
+        await _service.UpdateAsync(_mapper.Map<Product>(productDto));
+        return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        await _service.DeleteAsync(product);
+        return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
+
 }

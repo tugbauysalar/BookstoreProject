@@ -24,4 +24,27 @@ public class CategoryController : CustomBaseController
         var categoriesDto = _mapper.Map<CategoryDto>(category);
         return CreateIActionResult(CustomResponseDto<CategoryDto>.Success(201, categoriesDto));
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> All()
+    {
+        var categories = await _service.GetAllAsync();
+        var categoryDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
+        return CreateIActionResult(CustomResponseDto<List<CategoryDto>>.Success(200, categoryDto));
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update(CategoryDto categoryDto)
+    {
+        await _service.UpdateAsync(_mapper.Map<Category>(categoryDto));
+        return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var category = await _service.GetByIdAsync(id);
+        await _service.DeleteAsync(category);
+        return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
 }

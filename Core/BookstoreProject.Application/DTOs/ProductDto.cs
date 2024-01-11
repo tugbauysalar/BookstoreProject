@@ -1,4 +1,6 @@
-﻿namespace BookstoreProject.Application.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace BookstoreProject.Application.DTOs;
 
 public class ProductDto
 {
