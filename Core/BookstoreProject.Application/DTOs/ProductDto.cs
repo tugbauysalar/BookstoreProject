@@ -10,5 +10,4 @@ public class ProductDto
     public string Pages { get; set; }
     public int Stock { get; set; }
     public int CategoryId { get; set; }
-    public IFormFile File { get; set; }
 }
