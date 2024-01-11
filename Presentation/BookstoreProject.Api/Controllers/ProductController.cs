@@ -66,5 +66,29 @@ public class ProductController : CustomBaseController
         await _service.DeleteAsync(product);
         return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
     }
+    
+    [HttpPost("{id}/upload-photo")]
+    public async Task<IActionResult> UploadPhoto([FromForm]int id, IFormFile photo)
+    {
+        var product = await _service.GetByIdAsync(id);
 
+        if (product == null)
+        {
+            return NotFound(); 
+        }
+
+        if (photo != null && photo.Length > 0)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await photo.CopyToAsync(memoryStream);
+                byte[] photoBytes = memoryStream.ToArray();
+                product.ImageUrl = Convert.ToBase64String(photoBytes); 
+            }
+        }
+
+        await _service.UpdateAsync(product); 
+
+        return Ok(); 
+    }
 }
