@@ -25,4 +25,12 @@ public class ProductService : IProductService
         return bookDto;
     }
 
+    public async Task<BookDto> AddDescriptionAsync(int id, string description)
+    {
+        var product = await _appDbContext.Products.FindAsync(id);
+        product.Description = description;
+        await _appDbContext.SaveChangesAsync();
+        var bookDto = _mapper.Map<BookDto>(product);
+        return bookDto;
+    }
 }
