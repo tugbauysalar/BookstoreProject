@@ -4,5 +4,5 @@ namespace BookstoreProject.Application.Services;
 
 public interface IProductService
 {
-    Task<BookDto> GetByNameAsync(string name);
+    Task<List<BookDto>> GetByKeywordAsync(string keyword);
 }

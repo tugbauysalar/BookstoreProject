@@ -30,18 +30,19 @@ public class ProductController : CustomBaseController
         return CreateIActionResult(CustomResponseDto<ProductDto>.Success(201, productsDto));
     }
 
-    [HttpGet("{name}")]
-    public async Task<IActionResult> GetProductByName(string name)
+    [HttpGet("{keyword}")]
+    public async Task<IActionResult> GetProductByKeyword(string keyword)
     {
-        var product = await _productService.GetByNameAsync(name);
-        var productDto = _mapper.Map<BookDto>(product);
-        if (productDto != null)
+        var products = await _productService.GetByKeywordAsync(keyword);
+        var productDto = _mapper.Map<List<BookDto>>(products.ToList());
+
+        if (productDto.Count > 0) 
         {
-            return CreateIActionResult(CustomResponseDto<BookDto>.Success(200, productDto));
+            return CreateIActionResult(CustomResponseDto<List<BookDto>>.Success(200, productDto));
         }
 
-        var error = "Aradığınız kitap bulunamadı!";
-        return CreateIActionResult(CustomResponseDto<BookDto>.Error(404, error));
+        var error = "Aradığınız kitap veya yazar bulunamadı!";
+        return CreateIActionResult(CustomResponseDto<List<BookDto>>.Error(404, error));
     }
 
     [HttpGet]
