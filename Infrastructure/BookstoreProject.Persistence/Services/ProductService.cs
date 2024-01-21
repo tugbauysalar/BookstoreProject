@@ -16,10 +16,13 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<BookDto> GetByNameAsync(string name)
+    public async Task<List<BookDto>> GetByKeywordAsync(string keyword)
     {
-        var product = await _appDbContext.Products.FirstOrDefaultAsync(x => x.Name == name || x.AuthorName == name);
-        var bookDto = _mapper.Map<BookDto>(product);
+        var products = await _appDbContext.Products
+            .Where(x => EF.Functions.ILike(x.Name, $"%{keyword}%") || EF.Functions.ILike(x.AuthorName, $"%{keyword}%"))
+            .ToListAsync();
+        var bookDto = _mapper.Map<List<BookDto>>(products.ToList());
         return bookDto;
     }
+
 }
