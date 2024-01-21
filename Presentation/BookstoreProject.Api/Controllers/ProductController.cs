@@ -103,4 +103,12 @@ public class ProductController : CustomBaseController
         var bookDto = _mapper.Map<BookDto>(product);
         return Ok(bookDto);
     }
-}
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProductById(int id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        var bookDto = _mapper.Map<BookDto>(product);
+        return Ok(bookDto);
+    }
+} 
