@@ -20,12 +20,5 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string>
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
-        /*
-        modelBuilder.Entity<CategoryEntity>().HasData(
-            new CategoryEntity
-            {
-
-            }
-        );*/
     }
 }
