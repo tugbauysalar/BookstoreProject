@@ -6,5 +6,5 @@ public interface IAuthenticationService
 {
     Task<CustomResponseDto<TokenDto>> CreateTokenAsync(UserLoginDto userLoginDto);
     Task<CustomResponseDto<TokenDto>> CreateRefreshTokenAsync(string refreshToken);
-    Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken();
+    Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string id);
 }

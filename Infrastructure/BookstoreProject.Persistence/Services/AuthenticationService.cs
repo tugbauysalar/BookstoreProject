@@ -82,10 +82,20 @@ public class AuthenticationService : IAuthenticationService
         return CustomResponseDto<TokenDto>.Success(200, tokenDto);
     }
 
-   
-
-    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken()
+    public async Task<CustomResponseDto<NoContentDto>> RevokeRefreshToken(string id)
     {
+        var user = await _userRefreshTokenService.Where(x => x.UserId == id).FirstOrDefaultAsync();
+        if (user == null)
+        {
+            return CustomResponseDto<NoContentDto>.Error(404, "Kullanıcı bulunamadı!");
+        }
+        var existRefreshToken = await _userRefreshTokenService.Where(x => x.RefreshToken == user.RefreshToken).FirstOrDefaultAsync();
+        if (existRefreshToken == null)
+        {
+            return CustomResponseDto<NoContentDto>.Error(404, "Refresh token bulunamadı");
+        }
+        _userRefreshTokenService.Delete(existRefreshToken);
+
         await _unitOfWork.CommitAsync();
 
         return CustomResponseDto<NoContentDto>.Success(200);

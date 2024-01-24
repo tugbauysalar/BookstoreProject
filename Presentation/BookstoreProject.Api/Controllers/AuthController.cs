@@ -33,10 +33,10 @@ public class AuthController : CustomBaseController
         return CreateIActionResult(result);
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Logout()
+    [HttpPost("{id}")]
+    public async Task<IActionResult> Logout(string id)
     {
-        var result = await _authenticationService.RevokeRefreshToken();
+        var result = await _authenticationService.RevokeRefreshToken(id);
         return CreateIActionResult(result);
     }
 }

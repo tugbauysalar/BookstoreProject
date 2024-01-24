@@ -21,8 +21,16 @@ public class ProductService : IProductService
         var products = await _appDbContext.Products
             .Where(x => EF.Functions.ILike(x.Name, $"%{keyword}%") || EF.Functions.ILike(x.AuthorName, $"%{keyword}%"))
             .ToListAsync();
-        var bookDto = _mapper.Map<List<BookDto>>(products.ToList());
+        var bookDto = _mapper.Map<List<BookDto>>(products);
         return bookDto;
     }
-
+    
+    public async Task<BookDto> AddDescriptionAsync(int id, string description)
+    {
+        var product = await _appDbContext.Products.FindAsync(id);
+        product.Description = description;
+        await _appDbContext.SaveChangesAsync();
+        var bookDto = _mapper.Map<BookDto>(product);
+        return bookDto;
+    }
 }

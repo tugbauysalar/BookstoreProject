@@ -14,12 +14,15 @@ public class ProductController : CustomBaseController
     private readonly IMapper _mapper;
     private readonly IService<Product> _service;
     private readonly IProductService _productService;
+    private readonly ApplicationDbContext _applicationDbContext;
     
-    public ProductController(IService<Product> service, IMapper mapper, IProductService productService)
+    public ProductController(IService<Product> service, IMapper mapper, IProductService productService, ApplicationDbContext
+        applicationDbContext)
     {
         _service = service;
         _mapper = mapper;
         _productService = productService;
+        _applicationDbContext = applicationDbContext;
     }
     
     [HttpPost]
@@ -92,4 +95,20 @@ public class ProductController : CustomBaseController
 
         return Ok(); 
     }
-}
+
+    [HttpPost("{id}/adddescription")]
+    public async Task<IActionResult> AddDescription(int id, string description)
+    {
+        var product = await _productService.AddDescriptionAsync(id, description);
+        var bookDto = _mapper.Map<BookDto>(product);
+        return Ok(bookDto);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProductById(int id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        var bookDto = _mapper.Map<BookDto>(product);
+        return Ok(bookDto);
+    }
+} 

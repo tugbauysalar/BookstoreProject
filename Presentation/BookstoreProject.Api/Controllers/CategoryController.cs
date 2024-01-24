@@ -2,19 +2,23 @@
 using BookstoreProject.Application.DTOs;
 using BookstoreProject.Application.Services;
 using BookstoreProject.Domain.Entities;
+using BookstoreProject.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookstoreProject.Api.Controllers;
 
+[Route("api/[controller]/[action]")]
 public class CategoryController : CustomBaseController
 {
     private readonly IMapper _mapper;
     private readonly IService<Category> _service;
-
-    public CategoryController(IService<Category> service, IMapper mapper)
+    private readonly ApplicationDbContext _applicationDbContext;
+    public CategoryController(IService<Category> service, IMapper mapper, ApplicationDbContext applicationDbContext)
     {
         _service = service;
         _mapper = mapper;
+        _applicationDbContext = applicationDbContext;
     }
     
     [HttpPost]
@@ -46,5 +50,17 @@ public class CategoryController : CustomBaseController
         var category = await _service.GetByIdAsync(id);
         await _service.DeleteAsync(category);
         return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProductsByCategory(int id)
+    {
+        var products = await _applicationDbContext.Products
+            .Where(x => x.CategoryId == id)
+            .ToListAsync();
+
+        var bookDto = _mapper.Map<List<BookDto>>(products);
+    
+        return Ok(bookDto);
     }
 }
