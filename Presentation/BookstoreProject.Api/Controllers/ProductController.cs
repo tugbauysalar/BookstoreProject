@@ -114,7 +114,7 @@ public class ProductController : CustomBaseController
     
     private static List<CartDto> cart = new List<CartDto>();
 
-    [HttpPost]
+    [HttpPost("{id}")]
     public async Task<IActionResult> AddToCart(int id)
     {
         var product = await _service.GetByIdAsync(id);
