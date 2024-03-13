@@ -111,4 +111,22 @@ public class ProductController : CustomBaseController
         var bookDto = _mapper.Map<BookDto>(product);
         return Ok(bookDto);
     }
+    
+    private static List<CartDto> cart = new List<CartDto>();
+
+    [HttpPost("addToCart")]
+    public async Task<IActionResult> AddToCart(int id)
+    {
+        var product = await _service.GetByIdAsync(id);
+        var cartDto = _mapper.Map<CartDto>(product);
+        cart.Add(cartDto);
+        return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
+    }
+    
+    [HttpGet("cart")]
+    public async Task<IActionResult> GetCart()
+    {
+        return CreateIActionResult(CustomResponseDto<List<CartDto>>.Success(200, cart));
+    }
+    
 } 
