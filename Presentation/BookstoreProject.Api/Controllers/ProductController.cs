@@ -114,7 +114,7 @@ public class ProductController : CustomBaseController
     
     private static List<CartDto> cart = new List<CartDto>();
 
-    [HttpPost("addToCart")]
+    [HttpPost]
     public async Task<IActionResult> AddToCart(int id)
     {
         var product = await _service.GetByIdAsync(id);
@@ -123,7 +123,7 @@ public class ProductController : CustomBaseController
         return CreateIActionResult(CustomResponseDto<NoContentDto>.Success(204));
     }
     
-    [HttpGet("cart")]
+    [HttpGet]
     public async Task<IActionResult> GetCart()
     {
         return CreateIActionResult(CustomResponseDto<List<CartDto>>.Success(200, cart));
